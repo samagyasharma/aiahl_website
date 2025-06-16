@@ -1,0 +1,86 @@
+/* Override Slick Carousel default styles */
+.slick-slider {
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  user-select: none;
+  touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.slick-list {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+.slick-list:focus {
+  outline: none;
+}
+
+.slick-list.dragging {
+  cursor: pointer;
+  cursor: hand;
+}
+
+.slick-slider .slick-track,
+.slick-slider .slick-list {
+  transform: translate3d(0, 0, 0);
+}
+
+.slick-track {
+  position: relative;
+  top: 0;
+  left: 0;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.slick-track:before,
+.slick-track:after {
+  display: table;
+  content: '';
+}
+
+.slick-track:after {
+  clear: both;
+}
+
+.slick-slide {
+  display: none;
+  float: left;
+  height: 100%;
+  min-height: 1px;
+}
+
+.slick-slide img {
+  display: block;
+}
+
+.slick-initialized .slick-slide {
+  display: block;
+}
+
+/* Custom animations */
+.slick-slide {
+  transition: transform 0.5s ease-in-out;
+}
+
+.slick-slide.slick-active {
+  transform: scale(1);
+}
+
+/* Accessibility improvements */
+.slick-slider .slick-prev,
+.slick-slider .slick-next {
+  z-index: 1;
+}
+
+.slick-slider .slick-prev:focus,
+.slick-slider .slick-next:focus {
+  outline: 2px solid white;
+  outline-offset: 2px;
+} 
