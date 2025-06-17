@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Slider from 'react-slick';
 import { 
   MagnifyingGlassIcon, 
@@ -13,15 +13,46 @@ import {
   ShieldCheckIcon,
   DocumentDuplicateIcon,
   ChevronLeftIcon,
-  ChevronRightIcon
+  ChevronRightIcon,
+  SunIcon,
+  MoonIcon
 } from '@heroicons/react/24/outline';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import '../styles/carousel.css';
 
+// Import images
+import logo from '../assets/images/logo.png';
+import carouselImage1 from '../assets/images/carousel_image1.png';
+import carouselImage2 from '../assets/images/carousel_image2.png';
+import carouselImage3 from '../assets/images/carousel_image3.png';
+import carouselImage5 from '../assets/images/carousel_image5.png';
+import facilitation from '../assets/images/facilitation.png';
+import facilitation2 from '../assets/images/facilitation2.png';
+
 const Home = () => {
   const [fontSize, setFontSize] = useState(1);
   const [language, setLanguage] = useState<'en' | 'hi'>('en');
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      setIsDarkMode(true);
+      document.documentElement.classList.add('dark');
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+    if (!isDarkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  };
 
   const navLinks = [
     'About Us',
@@ -85,23 +116,39 @@ const Home = () => {
   const carouselImages = [
     {
       id: 1,
-      title: 'Centaur Hotel Delhi',
-      description: 'A premier hospitality property in the heart of Delhi'
+      image: carouselImage1,
+      title: 'AIAHL Building',
+      description: 'Our headquarters in New Delhi'
     },
     {
       id: 2,
-      title: 'Air India Building Mumbai',
-      description: 'Historic landmark in Mumbai\'s business district'
+      image: carouselImage2,
+      title: 'Corporate Office',
+      description: 'Modern workspace in the heart of the city'
     },
     {
       id: 3,
-      title: 'Airlines House Kolkata',
-      description: 'Strategic location in Kolkata\'s commercial hub'
+      image: carouselImage3,
+      title: 'Business Center',
+      description: 'Strategic location for business operations'
     },
     {
       id: 4,
-      title: 'Regional Office Chennai',
-      description: 'Modern office space in Chennai\'s business center'
+      image: carouselImage5,
+      title: 'Regional Office',
+      description: 'Expanding our presence across India'
+    },
+    {
+      id: 5,
+      image: facilitation,
+      title: 'Facilitation Event',
+      description: 'Supporting business growth and development'
+    },
+    {
+      id: 6,
+      image: facilitation2,
+      title: 'Corporate Event',
+      description: 'Building strong business relationships'
     }
   ];
 
@@ -145,69 +192,107 @@ const Home = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Accessibility Bar */}
-      <div className="w-full bg-blue-900 text-white py-2">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      {/* Scrolling News Marquee */}
+      <div className="w-full bg-red-600 text-white py-2 overflow-hidden">
+        <div className="animate-marquee whitespace-nowrap hover:pause">
+          <span className="inline-block mx-4">Final Report –CGHS face recognition project</span>
+          <span className="inline-block mx-4">Committee Report on current assets</span>
+          <span className="inline-block mx-4">If any feedback please contact here</span>
+        </div>
+      </div>
+
+      {/* Government Branding Bar */}
+      <div className="w-full bg-[#ffb000] text-black py-2">
         <div className="max-w-[1920px] mx-auto px-6 flex justify-between items-center">
-          <div className="flex items-center space-x-4">
-            <button onClick={() => setFontSize(prev => Math.max(0.8, prev - 0.1))} className="hover:text-blue-200">A-</button>
-            <button onClick={() => setFontSize(1)} className="hover:text-blue-200">A</button>
-            <button onClick={() => setFontSize(prev => Math.min(1.2, prev + 0.1))} className="hover:text-blue-200">A+</button>
-            <a href="#screen-reader" className="hover:text-blue-200">Screen Reader</a>
+          <div className="text-sm font-bold">
+            भारत सरकार | Government of India
           </div>
           <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2">
+              <button 
+                onClick={() => setFontSize(prev => Math.max(0.8, prev - 0.1))} 
+                className="text-black hover:text-gray-700 font-bold"
+              >
+                A-
+              </button>
+              <button 
+                onClick={() => setFontSize(1)} 
+                className="text-black hover:text-gray-700 font-bold"
+              >
+                A
+              </button>
+              <button 
+                onClick={() => setFontSize(prev => Math.min(1.2, prev + 0.1))} 
+                className="text-black hover:text-gray-700 font-bold"
+              >
+                A+
+              </button>
+            </div>
             <button 
-              onClick={() => setLanguage(prev => prev === 'en' ? 'hi' : 'en')}
-              className="hover:text-blue-200"
+              onClick={toggleTheme}
+              className="p-1 hover:bg-yellow-700 rounded text-black hover:text-white transition-colors"
             >
-              {language === 'en' ? 'हिंदी' : 'English'}
+              {isDarkMode ? (
+                <SunIcon className="h-5 w-5" />
+              ) : (
+                <MoonIcon className="h-5 w-5" />
+              )}
             </button>
-            <a href="#main-content" className="hover:text-blue-200">Skip to main content</a>
+            <select 
+              value={language}
+              onChange={(e) => setLanguage(e.target.value as 'en' | 'hi')}
+              className="bg-transparent border border-black rounded px-2 py-1 text-black"
+            >
+              <option value="en">English</option>
+              <option value="hi">हिंदी</option>
+            </select>
+            <a href="#screen-reader" className="text-black hover:text-gray-700">Screen Reader Access</a>
           </div>
         </div>
       </div>
 
-      {/* Header */}
-      <header className="w-full bg-white shadow-md">
-        <div className="max-w-[1920px] mx-auto px-6 py-6">
+      {/* Sticky Header */}
+      <header className="sticky top-0 z-50 bg-white dark:bg-gray-800 shadow-md">
+        <div className="max-w-[1920px] mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <div className="w-32 h-16 bg-gray-200 flex items-center justify-center">
-              <span className="text-gray-500">Logo</span>
+            <div className="h-16 flex items-center">
+              <img src={logo} alt="AIAHL Logo" className="h-full w-auto" />
             </div>
 
             {/* Title */}
             <div className="text-center flex-1">
-              <h1 className="text-2xl font-bold text-gray-800 mb-1">
+              <h1 className="text-2xl font-bold text-red-600 dark:text-red-400 mb-1">
                 एआई एसेट्स होल्डिंग लिमिटेड
               </h1>
-              <h2 className="text-lg text-gray-600 mb-1">
+              <h2 className="text-lg text-gray-600 dark:text-gray-300 mb-1">
                 (पूर्व में एयर इंडिया एसेट्स होल्डिंग लिमिटेड)
               </h2>
-              <h3 className="text-2xl font-bold text-gray-800 mb-1">
+              <h3 className="text-2xl font-bold text-red-600 dark:text-red-400 mb-1">
                 AI ASSETS HOLDING LIMITED
               </h3>
-              <h4 className="text-lg text-gray-600">
+              <h4 className="text-lg text-gray-600 dark:text-gray-300">
                 (Formerly AIR INDIA ASSETS HOLDING LIMITED)
               </h4>
             </div>
 
             {/* Search Icon */}
             <div className="w-32 flex justify-end">
-              <button className="p-2 hover:bg-gray-100 rounded-full">
-                <MagnifyingGlassIcon className="h-6 w-6 text-gray-600" />
+              <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full">
+                <MagnifyingGlassIcon className="h-6 w-6 text-gray-600 dark:text-gray-300" />
               </button>
             </div>
           </div>
 
           {/* Navigation */}
-          <nav className="mt-6">
+          <nav className="mt-4">
             <ul className="flex justify-center space-x-8">
               {navLinks.map((link) => (
                 <li key={link}>
                   <a
                     href={`#${link.toLowerCase().replace(' ', '-')}`}
-                    className="text-gray-700 hover:text-blue-900 font-medium"
+                    className="text-gray-700 dark:text-gray-300 hover:text-blue-900 dark:hover:text-blue-400 font-medium"
                   >
                     {link}
                   </a>
@@ -254,7 +339,11 @@ const Home = () => {
                 <Slider {...carouselSettings}>
                   {carouselImages.map((image) => (
                     <div key={image.id} className="relative h-[400px]">
-                      <div className="absolute inset-0 bg-gray-200"></div>
+                      <img 
+                        src={image.image} 
+                        alt={image.title}
+                        className="w-full h-full object-cover"
+                      />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-6">
                         <h3 className="text-white text-xl font-semibold mb-2">{image.title}</h3>
                         <p className="text-gray-200 text-sm">{image.description}</p>
